@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Catch My Love 💘</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+    #game {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .player {
+      width: 80px;
+      height: 80px;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-image: url('https://i.imgur.com/7pZBbVA.png'); /* basket emoji */
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .heart {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 0;
+      background-image: url('https://i.imgur.com/5cJbqkS.png'); /* heart emoji */
+      background-size: cover;
+    }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+    #message {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      color: white;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="scoreboard">Hearts: 0</div>
+    <div id="message">You caught all my love 💖</div>
+    <div class="player" id="player"></div>
+  </div>
+
+  <script>
+    const game = document.getElementById('game');
+    const player = document.getElementById('player');
+    const scoreboard = document.getElementById('scoreboard');
+    const message = document.getElementById('message');
+    let score = 0;
+    const maxScore = 10;
+
+    // Control player movement
+    let playerX = window.innerWidth / 2;
+    document.addEventListener('mousemove', (e) => {
+      playerX = e.clientX;
+      player.style.left = playerX - 40 + 'px';
+    });
+
+    // Create falling hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+      game.appendChild(heart);
+
+      let heartY = 0;
+      const fallSpeed = 3 + Math.random() * 2;
+
+      function fall() {
+        heartY += fallSpeed;
+        heart.style.top = heartY + 'px';
+
+        const heartRect = heart.getBoundingClientRect();
+        const playerRect = player.getBoundingClientRect();
+
+        // Check collision
+        if (
+          heartRect.bottom >= playerRect.top &&
+          heartRect.left < playerRect.right &&
+          heartRect.right > playerRect.left
+        ) {
+          game.removeChild(heart);
+          score++;
+          scoreboard.textContent = 'Hearts: ' + score;
+
+          if (score >= maxScore) {
+            message.style.display = 'block';
+          }
+          return;
+        }
+
+        // If heart reaches bottom
+        if (heartY < window.innerHeight) {
+          requestAnimationFrame(fall);
+        } else {
+          game.removeChild(heart);
+        }
+      }
+
+      requestAnimationFrame(fall);
+    }
+
+    // Drop hearts every second
+    setInterval(() => {
+      if (score < maxScore) {
+        createHeart();
+      }
+    }, 800);
+  </script>
+</body>
+</html>
+
