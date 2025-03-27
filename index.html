@@ -29,7 +29,7 @@
       width: 80px;
       height: 80px;
       position: absolute;
-      bottom: 5%;
+      bottom: 10%; /* 👈 Adjusted to lift burger up */
       left: 50%;
       transform: translateX(-50%);
       background-image: url('https://cdn-icons-png.flaticon.com/512/3075/3075977.png'); /* burger icon */
@@ -96,7 +96,7 @@
   <div id="game">
     <div id="scoreboard">Hearts: 0</div>
     <div id="nickname-msg"></div>
-    <div id="message">You caught all my love 💖</div>
+    <div id="message">You caught 0.000000000000000000000001% of my love pookie💖</div>
     <div class="player" id="player"></div>
   </div>
 
@@ -108,16 +108,16 @@
     const nicknameMsg = document.getElementById('nickname-msg');
 
     let score = 0;
-    const maxScore = 10;
+    const maxScore = 50;
 
     const nicknames = ["Chudail 😈", "Gorabella 💋", "Motto 🐣", "Cutie 💞", "My girl 💖"];
 
-    // 🖱 Desktop Movement
+    // Desktop movement
     document.addEventListener('mousemove', (e) => {
       movePlayer(e.clientX);
     });
 
-    // 📱 Touch Movement
+    // Touch movement
     document.addEventListener('touchmove', (e) => {
       movePlayer(e.touches[0].clientX);
     });
