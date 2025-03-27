@@ -25,7 +25,7 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background-image: url('https://i.imgur.com/7pZBbVA.png'); /* basket emoji */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png'); /* basket icon */
       background-size: contain;
       background-repeat: no-repeat;
     }
@@ -34,7 +34,7 @@
       height: 40px;
       position: absolute;
       top: 0;
-      background-image: url('https://i.imgur.com/5cJbqkS.png'); /* heart emoji */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); /* heart icon */
       background-size: cover;
     }
     #scoreboard {
@@ -58,11 +58,28 @@
       font-weight: bold;
       display: none;
     }
+    #nickname-msg {
+      position: absolute;
+      bottom: 100px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      animation: fadeInOut 2s ease;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
   <div id="game">
     <div id="scoreboard">Hearts: 0</div>
+    <div id="nickname-msg"></div>
     <div id="message">You caught all my love 💖</div>
     <div class="player" id="player"></div>
   </div>
@@ -72,17 +89,28 @@
     const player = document.getElementById('player');
     const scoreboard = document.getElementById('scoreboard');
     const message = document.getElementById('message');
+    const nicknameMsg = document.getElementById('nickname-msg');
+
     let score = 0;
     const maxScore = 10;
 
-    // Control player movement
-    let playerX = window.innerWidth / 2;
+    const nicknames = ["Chudail 😈", "Gorabella 💋", "Motto 🐣", "Cutie 💞", "My girl 💖"];
+
+    // Move player with mouse
     document.addEventListener('mousemove', (e) => {
-      playerX = e.clientX;
-      player.style.left = playerX - 40 + 'px';
+      let x = e.clientX;
+      player.style.left = (x - 40) + 'px';
     });
 
-    // Create falling hearts
+    function showNickname() {
+      const randomName = nicknames[Math.floor(Math.random() * nicknames.length)];
+      nicknameMsg.innerText = `Nice catch, ${randomName}!`;
+      nicknameMsg.style.display = "block";
+      setTimeout(() => {
+        nicknameMsg.style.display = "none";
+      }, 2000);
+    }
+
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -99,7 +127,6 @@
         const heartRect = heart.getBoundingClientRect();
         const playerRect = player.getBoundingClientRect();
 
-        // Check collision
         if (
           heartRect.bottom >= playerRect.top &&
           heartRect.left < playerRect.right &&
@@ -108,6 +135,7 @@
           game.removeChild(heart);
           score++;
           scoreboard.textContent = 'Hearts: ' + score;
+          showNickname();
 
           if (score >= maxScore) {
             message.style.display = 'block';
@@ -115,7 +143,6 @@
           return;
         }
 
-        // If heart reaches bottom
         if (heartY < window.innerHeight) {
           requestAnimationFrame(fall);
         } else {
@@ -126,12 +153,12 @@
       requestAnimationFrame(fall);
     }
 
-    // Drop hearts every second
+    // Drop hearts
     setInterval(() => {
       if (score < maxScore) {
         createHeart();
       }
-    }, 800);
+    }, 700);
   </script>
 </body>
 </html>
