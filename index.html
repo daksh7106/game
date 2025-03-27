@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catch My Love 💘</title>
   <style>
     * {
@@ -12,20 +13,22 @@
       background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
       overflow: hidden;
       font-family: 'Courier New', monospace;
+      touch-action: none;
     }
     #game {
       width: 100vw;
       height: 100vh;
       position: relative;
+      overflow: hidden;
     }
     .player {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       position: absolute;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png'); /* basket icon */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png');
       background-size: contain;
       background-repeat: no-repeat;
     }
@@ -34,7 +37,7 @@
       height: 40px;
       position: absolute;
       top: 0;
-      background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); /* heart icon */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png');
       background-size: cover;
     }
     #scoreboard {
@@ -42,10 +45,10 @@
       top: 10px;
       left: 10px;
       color: #fff;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       background-color: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
+      padding: 6px 10px;
       border-radius: 10px;
     }
     #message {
@@ -53,18 +56,19 @@
       top: 40%;
       width: 100%;
       text-align: center;
-      font-size: 36px;
+      font-size: 28px;
       color: white;
       font-weight: bold;
       display: none;
+      padding: 0 10px;
     }
     #nickname-msg {
       position: absolute;
-      bottom: 100px;
+      bottom: 90px;
       width: 100%;
       text-align: center;
       color: #fff;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       animation: fadeInOut 2s ease;
     }
@@ -96,11 +100,19 @@
 
     const nicknames = ["Chudail 😈", "Gorabella 💋", "Motto 🐣", "Cutie 💞", "My girl 💖"];
 
-    // Move player with mouse
+    // 🖱 Desktop Movement
     document.addEventListener('mousemove', (e) => {
-      let x = e.clientX;
-      player.style.left = (x - 40) + 'px';
+      movePlayer(e.clientX);
     });
+
+    // 📱 Touch Movement
+    document.addEventListener('touchmove', (e) => {
+      movePlayer(e.touches[0].clientX);
+    });
+
+    function movePlayer(x) {
+      player.style.left = (x - player.offsetWidth / 2) + 'px';
+    }
 
     function showNickname() {
       const randomName = nicknames[Math.floor(Math.random() * nicknames.length)];
@@ -118,7 +130,7 @@
       game.appendChild(heart);
 
       let heartY = 0;
-      const fallSpeed = 3 + Math.random() * 2;
+      const fallSpeed = 2 + Math.random() * 2;
 
       function fall() {
         heartY += fallSpeed;
@@ -153,7 +165,6 @@
       requestAnimationFrame(fall);
     }
 
-    // Drop hearts
     setInterval(() => {
       if (score < maxScore) {
         createHeart();
