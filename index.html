@@ -8,49 +8,58 @@
     * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
+
     body {
       background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
       overflow: hidden;
       font-family: 'Courier New', monospace;
       touch-action: none;
     }
+
     #game {
       width: 100vw;
       height: 100vh;
       position: relative;
       overflow: hidden;
     }
+
     .player {
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       position: absolute;
-      bottom: 20px;
+      bottom: 5%;
       left: 50%;
       transform: translateX(-50%);
-      background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png');
+      background-image: url('https://cdn-icons-png.flaticon.com/512/3075/3075977.png'); /* burger icon */
       background-size: contain;
       background-repeat: no-repeat;
+      z-index: 10;
     }
+
     .heart {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       position: absolute;
       top: 0;
       background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png');
       background-size: cover;
     }
+
     #scoreboard {
       position: absolute;
       top: 10px;
       left: 10px;
       color: #fff;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.3);
-      padding: 6px 10px;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 8px 14px;
       border-radius: 10px;
+      z-index: 99;
     }
+
     #message {
       position: absolute;
       top: 40%;
@@ -60,18 +69,21 @@
       color: white;
       font-weight: bold;
       display: none;
-      padding: 0 10px;
+      padding: 0 20px;
     }
+
     #nickname-msg {
       position: absolute;
-      bottom: 90px;
+      bottom: 100px;
       width: 100%;
       text-align: center;
       color: #fff;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       animation: fadeInOut 2s ease;
+      z-index: 99;
     }
+
     @keyframes fadeInOut {
       0% { opacity: 0; }
       20% { opacity: 1; }
@@ -111,7 +123,8 @@
     });
 
     function movePlayer(x) {
-      player.style.left = (x - player.offsetWidth / 2) + 'px';
+      const playerWidth = player.offsetWidth;
+      player.style.left = (x - playerWidth / 2) + 'px';
     }
 
     function showNickname() {
@@ -126,7 +139,7 @@
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
-      heart.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+      heart.style.left = Math.random() * (window.innerWidth - 50) + 'px';
       game.appendChild(heart);
 
       let heartY = 0;
